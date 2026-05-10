@@ -145,6 +145,35 @@ export const NavLabel = styled.span<{ $collapsed: boolean; $mobileDrawer?: boole
   white-space: nowrap;
 `
 
+export const NavLabelRow = styled.span<{ $collapsed: boolean; $mobileDrawer?: boolean }>`
+  ${({ $collapsed, $mobileDrawer }) =>
+    !$mobileDrawer && $collapsed ? 'display: none;' : ''}
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  overflow: hidden;
+`
+
+export const NavBadge = styled.span`
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  min-width: 1.15rem;
+  padding: 0.12rem 0.38rem;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
+  line-height: 1.15;
+  text-align: center;
+`
+
+export const NavEllipsis = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
 export const Footer = styled.div`
   flex-shrink: 0;
   display: flex;

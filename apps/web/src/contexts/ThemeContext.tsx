@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from 'react'
 import { ThemeProvider } from 'styled-components'
+import { GlobalStyles } from '../styles/GlobalStyles'
 import { darkTheme, lightTheme } from '../styles/theme'
 
 const STORAGE_KEY = 'flow-theme'
@@ -48,7 +49,10 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeModeContext.Provider value={value}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        {children}
+      </ThemeProvider>
     </ThemeModeContext.Provider>
   )
 }

@@ -184,11 +184,8 @@ export const HeatmapScroll = styled.div`
   overflow-y: hidden;
   padding-bottom: 0.15rem;
 
+  /* Mantém barra horizontal mais baixa no heatmap; cores vêm do GlobalStyles. */
   &::-webkit-scrollbar {
-    height: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.border};
-    border-radius: 4px;
+    height: 8px;
   }
 `

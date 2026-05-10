@@ -8,6 +8,8 @@ import {
   rulesToCatalogIdSet,
 } from '../authorization/ruleCodec'
 import type { RoleSlug } from '../authorization/types'
+import { useAuth } from '../contexts/AuthContext'
+import { recordAudit } from '../persistence/auditLogStorage'
 import {
   clearRoleRules,
   loadRoleRuleOverrides,
@@ -44,7 +46,7 @@ function initialGuestSet(): Set<string> {
   return rulesToCatalogIdSet(rules)
 }
 
-function usePermissionMatrix() {
+function usePermissionMatrix(actorEmail: string | null) {
   const [editor, setEditor] = useState(() =>
     rulesToCatalogIdSet(mergeRulesForSlug('editor')),
   )
@@ -60,9 +62,16 @@ function usePermissionMatrix() {
       viewer: catalogIdsToRules(viewer),
       guest: catalogIdsToRules(guest),
     })
+    recordAudit({
+      actorEmail,
+      verb: 'security.matrix_saved',
+      resource: 'Security',
+      summary:
+        'Matriz de permissões atualizada (papéis Editor, Visualizador e Visitante / convidado).',
+    })
     setSaved(true)
     window.setTimeout(() => setSaved(false), 2400)
-  }, [editor, viewer, guest])
+  }, [actorEmail, editor, viewer, guest])
 
   const resetAllDefaults = useCallback(() => {
     clearRoleRules('editor')
@@ -100,6 +109,7 @@ function usePermissionMatrix() {
 }
 
 export function AccessControl() {
+  const { userEmail } = useAuth()
   const {
     editor,
     viewer,
@@ -108,7 +118,7 @@ export function AccessControl() {
     persist,
     resetAllDefaults,
     saved,
-  } = usePermissionMatrix()
+  } = usePermissionMatrix(userEmail)
 
   const groups = useMemo(() => {
     const m = new Map<string, typeof PERMISSION_CATALOG>()

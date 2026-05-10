@@ -1,10 +1,17 @@
+import { useEffect, useState } from 'react'
 import {
+  HiBell,
+  HiBuildingOffice2,
+  HiCalendarDateRange,
   HiCalendarDays,
   HiChartBar,
+  HiClipboardDocumentCheck,
   HiClipboardDocumentList,
+  HiDocumentMagnifyingGlass,
   HiFolder,
   HiShieldCheck,
   HiSquares2X2,
+  HiUserGroup,
   HiUsers,
   HiViewColumns,
 } from 'react-icons/hi2'
@@ -16,11 +23,20 @@ import {
   Brand,
   Footer,
   FooterAccountRow,
+  NavBadge,
+  NavEllipsis,
   NavIcon,
   NavLabel,
+  NavLabelRow,
   NavScroll,
   SidebarLink,
 } from './Sidebar.styles'
+import { useAuth } from '../contexts/AuthContext'
+import { loadOrganizationSettings } from '../persistence/organizationSettingsStorage'
+import {
+  ensureNotificationsForUser,
+  unreadCountForUser,
+} from '../persistence/notificationCenterStorage'
 import { SidebarAccountPopover } from './SidebarAccountPopover'
 
 const navIc = { size: 18 as const, 'aria-hidden': true as const }
@@ -32,6 +48,12 @@ const iconUsuarios = <HiUsers {...navIc} />
 const iconAlocacoes = <HiCalendarDays {...navIc} />
 const iconKanban = <HiViewColumns {...navIc} />
 const iconDaily = <HiClipboardDocumentList {...navIc} />
+const iconAbsences = <HiCalendarDateRange {...navIc} />
+const iconApprovals = <HiClipboardDocumentCheck {...navIc} />
+const iconTeams = <HiUserGroup {...navIc} />
+const iconNotifs = <HiBell {...navIc} />
+const iconOrg = <HiBuildingOffice2 {...navIc} />
+const iconAudit = <HiDocumentMagnifyingGlass {...navIc} />
 const iconAccess = <HiShieldCheck {...navIc} />
 /* Organograma pausado — descomente HiShare em react-icons/hi2 e o <SidebarLink> abaixo.
 const iconOrganogram = <HiShare {...navIc} />
@@ -51,6 +73,26 @@ export function Sidebar({
   mobileOpen = false,
   onNavigate,
 }: Props) {
+  const { userEmail } = useAuth()
+  const [brandTitle, setBrandTitle] = useState(() => loadOrganizationSettings().displayName)
+  const [notifUnread, setNotifUnread] = useState(0)
+  useEffect(() => {
+    const sync = () => setBrandTitle(loadOrganizationSettings().displayName)
+    window.addEventListener('flow-organization-settings-changed', sync)
+    return () => window.removeEventListener('flow-organization-settings-changed', sync)
+  }, [])
+  useEffect(() => {
+    if (!userEmail) {
+      setNotifUnread(0)
+      return
+    }
+    ensureNotificationsForUser(userEmail)
+    const sync = () => setNotifUnread(unreadCountForUser(userEmail))
+    sync()
+    window.addEventListener('flow-notifications-changed', sync)
+    return () => window.removeEventListener('flow-notifications-changed', sync)
+  }, [userEmail])
+
   const showLabels = mobileDrawer || !collapsed
   const closeIfDrawer = () => {
     if (mobileDrawer) onNavigate?.()
@@ -68,12 +110,12 @@ export function Sidebar({
       <Brand
         $collapsed={collapsed}
         $mobileDrawer={mobileDrawer}
-        aria-label={!showLabels ? 'Flow Admin' : undefined}
+        aria-label={!showLabels ? brandTitle : undefined}
       >
         <MarkWrap>
           <FlowMark size={showLabels ? 28 : 24} />
         </MarkWrap>
-        {showLabels ? <BrandLabel>Flow Admin</BrandLabel> : null}
+        {showLabels ? <BrandLabel>{brandTitle}</BrandLabel> : null}
       </Brand>
       <NavScroll $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
         <Can I="read" a="Dashboard">
@@ -155,6 +197,65 @@ export function Sidebar({
             </NavLabel>
           </SidebarLink>
         </Can>
+        <Can I="read" a="Absence">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/people/absences"
+            onClick={closeIfDrawer}
+          >
+            <NavIcon>{iconAbsences}</NavIcon>
+            <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              Férias e ausências
+            </NavLabel>
+          </SidebarLink>
+        </Can>
+        <Can I="read" a="ApprovalQueue">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/people/approvals"
+            onClick={closeIfDrawer}
+          >
+            <NavIcon>{iconApprovals}</NavIcon>
+            <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              Aprovações
+            </NavLabel>
+          </SidebarLink>
+        </Can>
+        <Can I="read" a="Team">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/people/teams"
+            onClick={closeIfDrawer}
+          >
+            <NavIcon>{iconTeams}</NavIcon>
+            <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              Equipes
+            </NavLabel>
+          </SidebarLink>
+        </Can>
+        <Can I="read" a="NotificationCenter">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/notifications"
+            onClick={closeIfDrawer}
+            title={
+              notifUnread > 0 ? `Avisos — ${notifUnread} não lidos` : 'Avisos'
+            }
+            aria-label={
+              notifUnread > 0 ? `Avisos, ${notifUnread} não lidos` : 'Avisos'
+            }
+          >
+            <NavIcon>{iconNotifs}</NavIcon>
+            <NavLabelRow $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              <NavEllipsis>Avisos</NavEllipsis>
+              {notifUnread > 0 ? <NavBadge>{notifUnread > 99 ? '99+' : notifUnread}</NavBadge> : null}
+            </NavLabelRow>
+          </SidebarLink>
+        </Can>
         <Can I="read" a="Report">
           <SidebarLink
             $collapsed={collapsed}
@@ -165,6 +266,32 @@ export function Sidebar({
             <NavIcon>{iconRel}</NavIcon>
             <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
               Relatórios
+            </NavLabel>
+          </SidebarLink>
+        </Can>
+        <Can I="read" a="Organization">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/settings/organization"
+            onClick={closeIfDrawer}
+          >
+            <NavIcon>{iconOrg}</NavIcon>
+            <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              Organização
+            </NavLabel>
+          </SidebarLink>
+        </Can>
+        <Can I="read" a="AuditLog">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/audit"
+            onClick={closeIfDrawer}
+          >
+            <NavIcon>{iconAudit}</NavIcon>
+            <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              Auditoria
             </NavLabel>
           </SidebarLink>
         </Can>

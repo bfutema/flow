@@ -25,6 +25,19 @@ const EDITOR_DEFAULT: AppRawRule[] = [
   { action: 'create', subject: 'DailyStatus' },
   { action: 'update', subject: 'DailyStatus' },
   { action: 'delete', subject: 'DailyStatus' },
+  { action: 'read', subject: 'Organization' },
+  { action: 'read', subject: 'AuditLog' },
+  { action: 'read', subject: 'Absence' },
+  { action: 'create', subject: 'Absence' },
+  { action: 'update', subject: 'Absence' },
+  { action: 'read', subject: 'ApprovalQueue' },
+  { action: 'update', subject: 'ApprovalQueue' },
+  { action: 'read', subject: 'Team' },
+  { action: 'create', subject: 'Team' },
+  { action: 'update', subject: 'Team' },
+  { action: 'delete', subject: 'Team' },
+  { action: 'read', subject: 'NotificationCenter' },
+  { action: 'update', subject: 'NotificationCenter' },
 ]
 
 const VIEWER_DEFAULT: AppRawRule[] = [
@@ -38,6 +51,13 @@ const VIEWER_DEFAULT: AppRawRule[] = [
   { action: 'read', subject: 'JsonViewer' },
   { action: 'read', subject: 'FlowDesign' },
   { action: 'read', subject: 'DailyStatus' },
+  { action: 'read', subject: 'Organization' },
+  { action: 'read', subject: 'Absence' },
+  { action: 'create', subject: 'Absence' },
+  { action: 'read', subject: 'ApprovalQueue' },
+  { action: 'read', subject: 'Team' },
+  { action: 'read', subject: 'NotificationCenter' },
+  { action: 'update', subject: 'NotificationCenter' },
 ]
 
 /** Visitante: e-mail não encontrado no diretório após login. */

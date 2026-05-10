@@ -24,6 +24,12 @@ import { OrganogramPage } from './pages/OrganogramPage'
 import { Reports } from './pages/Reports'
 import { TaskBoard } from './pages/TaskBoard'
 import { DailyStatusPage } from './pages/DailyStatus/DailyStatusPage'
+import { OrganizationSettingsPage } from './pages/OrganizationSettings/OrganizationSettingsPage'
+import { AuditLogPage } from './pages/AuditLog/AuditLogPage'
+import { AbsencesPage } from './pages/peopleOps/AbsencesPage'
+import { ApprovalsPage } from './pages/peopleOps/ApprovalsPage'
+import { TeamsPage } from './pages/peopleOps/TeamsPage'
+import { NotificationsPage } from './pages/peopleOps/NotificationsPage'
 import { EditUser } from './pages/EditUser'
 import { NewUser } from './pages/NewUser'
 import { UserProfile } from './pages/UserProfile'
@@ -217,6 +223,38 @@ export default function App() {
                   </RequireAbility>
                 }
               />
+              <Route
+                path="/people/absences"
+                element={
+                  <RequireAbility I="read" a="Absence">
+                    <AbsencesPage />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/people/approvals"
+                element={
+                  <RequireAbility I="read" a="ApprovalQueue">
+                    <ApprovalsPage />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/people/teams"
+                element={
+                  <RequireAbility I="read" a="Team">
+                    <TeamsPage />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <RequireAbility I="read" a="NotificationCenter">
+                    <NotificationsPage />
+                  </RequireAbility>
+                }
+              />
               <Route path="/profile" element={<MyProfilePage />} />
               <Route
                 path="/account/profile"
@@ -268,6 +306,22 @@ export default function App() {
                 element={
                   <RequireAbility I="read" a="User">
                     <UserProfile />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/settings/organization"
+                element={
+                  <RequireAbility I="read" a="Organization">
+                    <OrganizationSettingsPage />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/audit"
+                element={
+                  <RequireAbility I="read" a="AuditLog">
+                    <AuditLogPage />
                   </RequireAbility>
                 }
               />
