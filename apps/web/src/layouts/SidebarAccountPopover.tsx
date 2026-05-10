@@ -11,15 +11,14 @@ import {
 import { createPortal } from 'react-dom'
 import {
   HiArrowRightOnRectangle,
-  HiBell,
-  HiCalendarDateRange,
-  HiChartBar,
-  HiClipboardDocumentCheck,
+  HiBuildingOffice2,
+  HiCreditCard,
   HiCodeBracketSquare,
+  HiDocumentMagnifyingGlass,
   HiKey,
+  HiSparkles,
   HiSquare2Stack,
   HiUserCircle,
-  HiUserGroup,
 } from 'react-icons/hi2'
 import { useNavigate } from 'react-router-dom'
 import { AbilityContext } from '../contexts/AbilityContext'
@@ -84,18 +83,12 @@ export function SidebarAccountPopover({ collapsed, mobileDrawer, onNavigate }: P
 
   const canJsonViewer = ability.can('read', 'JsonViewer')
   const canFlowDesign = ability.can('read', 'FlowDesign')
-  const canNotifications = ability.can('read', 'NotificationCenter')
-  const canAbsence = ability.can('read', 'Absence')
-  const canApprovals = ability.can('read', 'ApprovalQueue')
-  const canTeams = ability.can('read', 'Team')
-  const canReports = ability.can('read', 'Report')
+  const canOrganization = ability.can('read', 'Organization')
+  const canSubscription = ability.can('read', 'Subscription')
+  const canChangelog = ability.can('read', 'Changelog')
+  const canAudit = ability.can('read', 'AuditLog')
 
-  const showAtalhos =
-    canNotifications ||
-    canAbsence ||
-    canApprovals ||
-    canTeams ||
-    canReports
+  const showPlataformaAuditoria = canChangelog || canAudit
 
   const close = useCallback(() => setOpen(false), [])
 
@@ -230,77 +223,68 @@ export function SidebarAccountPopover({ collapsed, mobileDrawer, onNavigate }: P
             </ToolsMenuItemIcon>
             Alterar senha
           </ToolsMenuItemLink>
-          {showAtalhos ? (
+          {canOrganization || canSubscription ? (
             <>
-              <ToolsMenuPanelTitle>Atalhos rápidos</ToolsMenuPanelTitle>
-              {canNotifications ? (
+              <ToolsMenuPanelTitle>Organização</ToolsMenuPanelTitle>
+              {canOrganization ? (
                 <ToolsMenuItemLink
-                  to="/notifications"
+                  to="/settings/organization"
                   onClick={() => {
                     close()
                     closeIfDrawer()
                   }}
                 >
                   <ToolsMenuItemIcon>
-                    <HiBell {...icNav} />
+                    <HiBuildingOffice2 {...icNav} />
                   </ToolsMenuItemIcon>
-                  Centro de avisos
+                  Configurações
                 </ToolsMenuItemLink>
               ) : null}
-              {canAbsence ? (
+              {canSubscription ? (
                 <ToolsMenuItemLink
-                  to="/people/absences"
+                  to="/settings/plans"
                   onClick={() => {
                     close()
                     closeIfDrawer()
                   }}
                 >
                   <ToolsMenuItemIcon>
-                    <HiCalendarDateRange {...icNav} />
+                    <HiCreditCard {...icNav} />
                   </ToolsMenuItemIcon>
-                  Férias e ausências
+                  Planos
                 </ToolsMenuItemLink>
               ) : null}
-              {canApprovals ? (
+            </>
+          ) : null}
+          {showPlataformaAuditoria ? (
+            <>
+              <ToolsMenuPanelTitle>Plataforma e auditoria</ToolsMenuPanelTitle>
+              {canChangelog ? (
                 <ToolsMenuItemLink
-                  to="/people/approvals"
+                  to="/changelog"
                   onClick={() => {
                     close()
                     closeIfDrawer()
                   }}
                 >
                   <ToolsMenuItemIcon>
-                    <HiClipboardDocumentCheck {...icNav} />
+                    <HiSparkles {...icNav} />
                   </ToolsMenuItemIcon>
-                  Aprovações
+                  Novidades
                 </ToolsMenuItemLink>
               ) : null}
-              {canTeams ? (
+              {canAudit ? (
                 <ToolsMenuItemLink
-                  to="/people/teams"
+                  to="/audit"
                   onClick={() => {
                     close()
                     closeIfDrawer()
                   }}
                 >
                   <ToolsMenuItemIcon>
-                    <HiUserGroup {...icNav} />
+                    <HiDocumentMagnifyingGlass {...icNav} />
                   </ToolsMenuItemIcon>
-                  Equipes
-                </ToolsMenuItemLink>
-              ) : null}
-              {canReports ? (
-                <ToolsMenuItemLink
-                  to="/reports"
-                  onClick={() => {
-                    close()
-                    closeIfDrawer()
-                  }}
-                >
-                  <ToolsMenuItemIcon>
-                    <HiChartBar {...icNav} />
-                  </ToolsMenuItemIcon>
-                  Relatórios
+                  Auditoria
                 </ToolsMenuItemLink>
               ) : null}
             </>

@@ -205,6 +205,22 @@ export const PERMISSION_CATALOG: PermissionCatalogItem[] = [
     description: 'Alterar dados institucionais da tenant no template demo.',
   },
   {
+    id: 'read:Subscription',
+    action: 'read',
+    subject: 'Subscription',
+    label: 'Ver planos e uso',
+    group: 'Organização',
+    description: 'Comparar planos, limites ilustrativos e fluxo de upgrade (integração com gateway fica a cargo do backend).',
+  },
+  {
+    id: 'update:Subscription',
+    action: 'update',
+    subject: 'Subscription',
+    label: 'Alterar plano ou cobrança',
+    group: 'Organização',
+    description: 'Reservado para troca de plano, método de pagamento e faturas quando houver API de billing.',
+  },
+  {
     id: 'read:AuditLog',
     action: 'read',
     subject: 'AuditLog',
@@ -288,6 +304,14 @@ export const PERMISSION_CATALOG: PermissionCatalogItem[] = [
     subject: 'NotificationCenter',
     label: 'Marcar notificações como lidas',
     group: 'Operação e pessoas',
+  },
+  {
+    id: 'read:Changelog',
+    action: 'read',
+    subject: 'Changelog',
+    label: 'Ver novidades da plataforma',
+    group: 'Plataforma',
+    description: 'Changelog: funcionalidades, correções e melhorias.',
   },
 ]
 

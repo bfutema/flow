@@ -33,6 +33,10 @@ export type AppSubject =
   | 'Team'
   /** Centro de avisos por usuário (MVP local). */
   | 'NotificationCenter'
+  /** Histórico de novidades e release notes da plataforma. */
+  | 'Changelog'
+  /** Plano, limites e upgrade (white-label / billing). */
+  | 'Subscription'
 
 export type AppAbilities = [AppAction, AppSubject]
 

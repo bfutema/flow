@@ -25,11 +25,13 @@ import { Reports } from './pages/Reports'
 import { TaskBoard } from './pages/TaskBoard'
 import { DailyStatusPage } from './pages/DailyStatus/DailyStatusPage'
 import { OrganizationSettingsPage } from './pages/OrganizationSettings/OrganizationSettingsPage'
+import { PlansPage } from './pages/Plans/PlansPage'
 import { AuditLogPage } from './pages/AuditLog/AuditLogPage'
 import { AbsencesPage } from './pages/peopleOps/AbsencesPage'
 import { ApprovalsPage } from './pages/peopleOps/ApprovalsPage'
 import { TeamsPage } from './pages/peopleOps/TeamsPage'
 import { NotificationsPage } from './pages/peopleOps/NotificationsPage'
+import { ChangelogPage } from './pages/changelog/ChangelogPage'
 import { EditUser } from './pages/EditUser'
 import { NewUser } from './pages/NewUser'
 import { UserProfile } from './pages/UserProfile'
@@ -255,6 +257,14 @@ export default function App() {
                   </RequireAbility>
                 }
               />
+              <Route
+                path="/changelog"
+                element={
+                  <RequireAbility I="read" a="Changelog">
+                    <ChangelogPage />
+                  </RequireAbility>
+                }
+              />
               <Route path="/profile" element={<MyProfilePage />} />
               <Route
                 path="/account/profile"
@@ -314,6 +324,14 @@ export default function App() {
                 element={
                   <RequireAbility I="read" a="Organization">
                     <OrganizationSettingsPage />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/settings/plans"
+                element={
+                  <RequireAbility I="read" a="Subscription">
+                    <PlansPage />
                   </RequireAbility>
                 }
               />

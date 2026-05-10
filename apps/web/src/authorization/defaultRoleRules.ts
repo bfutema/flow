@@ -26,6 +26,7 @@ const EDITOR_DEFAULT: AppRawRule[] = [
   { action: 'update', subject: 'DailyStatus' },
   { action: 'delete', subject: 'DailyStatus' },
   { action: 'read', subject: 'Organization' },
+  { action: 'read', subject: 'Subscription' },
   { action: 'read', subject: 'AuditLog' },
   { action: 'read', subject: 'Absence' },
   { action: 'create', subject: 'Absence' },
@@ -38,6 +39,7 @@ const EDITOR_DEFAULT: AppRawRule[] = [
   { action: 'delete', subject: 'Team' },
   { action: 'read', subject: 'NotificationCenter' },
   { action: 'update', subject: 'NotificationCenter' },
+  { action: 'read', subject: 'Changelog' },
 ]
 
 const VIEWER_DEFAULT: AppRawRule[] = [
@@ -58,6 +60,7 @@ const VIEWER_DEFAULT: AppRawRule[] = [
   { action: 'read', subject: 'Team' },
   { action: 'read', subject: 'NotificationCenter' },
   { action: 'update', subject: 'NotificationCenter' },
+  { action: 'read', subject: 'Changelog' },
 ]
 
 /** Visitante: e-mail não encontrado no diretório após login. */
@@ -66,6 +69,7 @@ export const GUEST_DEFAULT: AppRawRule[] = [
   { action: 'read', subject: 'Project' },
   { action: 'read', subject: 'JsonViewer' },
   { action: 'read', subject: 'FlowDesign' },
+  { action: 'read', subject: 'Changelog' },
 ]
 
 export const DEFAULT_RULES_BY_ROLE: Record<RoleSlug, AppRawRule[]> = {

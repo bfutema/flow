@@ -1,13 +1,11 @@
 import { useAbility } from '@casl/react'
 import { useEffect, useState } from 'react'
 import {
-  HiBuildingOffice2,
   HiCalendarDateRange,
   HiCalendarDays,
   HiChartBar,
   HiClipboardDocumentCheck,
   HiClipboardDocumentList,
-  HiDocumentMagnifyingGlass,
   HiFolder,
   HiShieldCheck,
   HiSquares2X2,
@@ -44,8 +42,6 @@ const iconDaily = <HiClipboardDocumentList {...navIc} />
 const iconAbsences = <HiCalendarDateRange {...navIc} />
 const iconApprovals = <HiClipboardDocumentCheck {...navIc} />
 const iconTeams = <HiUserGroup {...navIc} />
-const iconOrg = <HiBuildingOffice2 {...navIc} />
-const iconAudit = <HiDocumentMagnifyingGlass {...navIc} />
 const iconAccess = <HiShieldCheck {...navIc} />
 
 type Props = {
@@ -81,10 +77,7 @@ export function Sidebar({
     ability.can('read', 'ApprovalQueue') ||
     ability.can('read', 'Team')
   const showGovernanca =
-    ability.can('read', 'Report') ||
-    ability.can('read', 'Organization') ||
-    ability.can('read', 'AuditLog') ||
-    ability.can('manage', 'Security')
+    ability.can('read', 'Report') || ability.can('manage', 'Security')
 
   const showLabels = mobileDrawer || !collapsed
   const closeIfDrawer = () => {
@@ -259,32 +252,6 @@ export function Sidebar({
                 <NavIcon>{iconRel}</NavIcon>
                 <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
                   Relatórios
-                </NavLabel>
-              </SidebarLink>
-            </Can>
-            <Can I="read" a="Organization">
-              <SidebarLink
-                $collapsed={collapsed}
-                $mobileDrawer={mobileDrawer}
-                to="/settings/organization"
-                onClick={closeIfDrawer}
-              >
-                <NavIcon>{iconOrg}</NavIcon>
-                <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
-                  Organização
-                </NavLabel>
-              </SidebarLink>
-            </Can>
-            <Can I="read" a="AuditLog">
-              <SidebarLink
-                $collapsed={collapsed}
-                $mobileDrawer={mobileDrawer}
-                to="/audit"
-                onClick={closeIfDrawer}
-              >
-                <NavIcon>{iconAudit}</NavIcon>
-                <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
-                  Auditoria
                 </NavLabel>
               </SidebarLink>
             </Can>
