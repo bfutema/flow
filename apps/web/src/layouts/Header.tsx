@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Can } from '../contexts/AbilityContext'
 import { useAuth } from '../contexts/AuthContext'
 import { useThemeMode } from '../contexts/ThemeContext'
 import { Breadcrumbs } from '../components/Breadcrumbs/Breadcrumbs'
@@ -10,10 +10,10 @@ import {
   Right,
   UserBadge,
 } from './Header.styles'
+import { HeaderNotificationsPopover } from './HeaderNotificationsPopover'
 
 type Props = {
   onToggleSidebar: () => void
-  /** Modo gaveta (mobile): controla rótulos ARIA do botão menu. */
   mobileNav?: boolean
   mobileNavOpen?: boolean
 }
@@ -37,25 +37,13 @@ const iconMoon = (
   </svg>
 )
 
-const iconLogout = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
-  </svg>
-)
-
 export function Header({
   onToggleSidebar,
   mobileNav = false,
   mobileNavOpen = false,
 }: Props) {
   const { mode, toggleTheme } = useThemeMode()
-  const { userEmail, logout } = useAuth()
-  const navigate = useNavigate()
-
-  function handleLogout() {
-    logout()
-    navigate('/login', { replace: true })
-  }
+  const { userEmail } = useAuth()
 
   return (
     <Bar>
@@ -88,14 +76,9 @@ export function Header({
         >
           {mode === 'light' ? iconMoon : iconSun}
         </IconButton>
-        <IconButton
-          type="button"
-          onClick={handleLogout}
-          aria-label="Sair"
-          title="Sair"
-        >
-          {iconLogout}
-        </IconButton>
+        <Can I="read" a="NotificationCenter">
+          <HeaderNotificationsPopover />
+        </Can>
       </Right>
     </Bar>
   )

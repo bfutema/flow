@@ -1,6 +1,12 @@
 const STORAGE_KEY = 'flow-notification-center-v1'
 const MAX_PER_USER = 80
 
+export const NOTIFICATION_CATEGORIES = ['prazo', 'digest', 'pessoa', 'sistema', 'geral'] as const
+export type NotificationCategory = (typeof NOTIFICATION_CATEGORIES)[number]
+
+export const NOTIFICATION_PRIORITIES = ['low', 'normal', 'high'] as const
+export type NotificationPriority = (typeof NOTIFICATION_PRIORITIES)[number]
+
 export type NotificationItem = {
   id: string
   userId: string
@@ -9,6 +15,16 @@ export type NotificationItem = {
   createdAt: string
   read: boolean
   href?: string
+  category?: NotificationCategory
+  priority?: NotificationPriority
+}
+
+export function notificationCategoryOf(n: NotificationItem): NotificationCategory {
+  return n.category ?? 'geral'
+}
+
+export function notificationPriorityOf(n: NotificationItem): NotificationPriority {
+  return n.priority ?? 'normal'
 }
 
 function parse(raw: string | null): NotificationItem[] {
@@ -22,6 +38,22 @@ function parse(raw: string | null): NotificationItem[] {
   }
 }
 
+function isOptionalCategory(v: unknown): boolean {
+  return (
+    v === undefined ||
+    (typeof v === 'string' &&
+      (NOTIFICATION_CATEGORIES as readonly string[]).includes(v))
+  )
+}
+
+function isOptionalPriority(v: unknown): boolean {
+  return (
+    v === undefined ||
+    (typeof v === 'string' &&
+      (NOTIFICATION_PRIORITIES as readonly string[]).includes(v))
+  )
+}
+
 function isValid(x: unknown): x is NotificationItem {
   if (!x || typeof x !== 'object') return false
   const o = x as Record<string, unknown>
@@ -31,7 +63,10 @@ function isValid(x: unknown): x is NotificationItem {
     typeof o.title === 'string' &&
     typeof o.body === 'string' &&
     typeof o.createdAt === 'string' &&
-    typeof o.read === 'boolean'
+    typeof o.read === 'boolean' &&
+    (o.href === undefined || typeof o.href === 'string') &&
+    isOptionalCategory(o.category) &&
+    isOptionalPriority(o.priority)
   )
 }
 
@@ -46,6 +81,8 @@ function seedForUser(userId: string): NotificationItem[] {
       createdAt: t,
       read: false,
       href: '/allocations',
+      category: 'prazo',
+      priority: 'high',
     },
     {
       id: `notif-seed-${userId}-2`,
@@ -55,6 +92,8 @@ function seedForUser(userId: string): NotificationItem[] {
       createdAt: t,
       read: false,
       href: '/people/approvals',
+      category: 'digest',
+      priority: 'normal',
     },
   ]
 }
@@ -125,6 +164,8 @@ export function markAllRead(userId: string): void {
 /** Demo: simula digest com vários avisos de uma vez. */
 export function appendDigestDemo(userId: string): void {
   const now = Date.now()
+  const cats: NotificationCategory[] = ['digest', 'sistema', 'pessoa', 'geral']
+  const pris: NotificationPriority[] = ['high', 'normal', 'low']
   const batch: NotificationItem[] = Array.from({ length: 4 }, (_, i) => ({
     id: crypto.randomUUID(),
     userId,
@@ -133,6 +174,8 @@ export function appendDigestDemo(userId: string): void {
     createdAt: new Date(now - i * 60000).toISOString(),
     read: false,
     href: i % 2 === 0 ? '/people/approvals' : '/daily-status',
+    category: cats[i % cats.length],
+    priority: pris[i % pris.length],
   }))
   appendNotifications(batch)
 }

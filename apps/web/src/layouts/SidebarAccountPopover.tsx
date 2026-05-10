@@ -11,10 +11,15 @@ import {
 import { createPortal } from 'react-dom'
 import {
   HiArrowRightOnRectangle,
+  HiBell,
+  HiCalendarDateRange,
+  HiChartBar,
+  HiClipboardDocumentCheck,
   HiCodeBracketSquare,
   HiKey,
   HiSquare2Stack,
   HiUserCircle,
+  HiUserGroup,
 } from 'react-icons/hi2'
 import { useNavigate } from 'react-router-dom'
 import { AbilityContext } from '../contexts/AbilityContext'
@@ -79,6 +84,18 @@ export function SidebarAccountPopover({ collapsed, mobileDrawer, onNavigate }: P
 
   const canJsonViewer = ability.can('read', 'JsonViewer')
   const canFlowDesign = ability.can('read', 'FlowDesign')
+  const canNotifications = ability.can('read', 'NotificationCenter')
+  const canAbsence = ability.can('read', 'Absence')
+  const canApprovals = ability.can('read', 'ApprovalQueue')
+  const canTeams = ability.can('read', 'Team')
+  const canReports = ability.can('read', 'Report')
+
+  const showAtalhos =
+    canNotifications ||
+    canAbsence ||
+    canApprovals ||
+    canTeams ||
+    canReports
 
   const close = useCallback(() => setOpen(false), [])
 
@@ -213,6 +230,81 @@ export function SidebarAccountPopover({ collapsed, mobileDrawer, onNavigate }: P
             </ToolsMenuItemIcon>
             Alterar senha
           </ToolsMenuItemLink>
+          {showAtalhos ? (
+            <>
+              <ToolsMenuPanelTitle>Atalhos rápidos</ToolsMenuPanelTitle>
+              {canNotifications ? (
+                <ToolsMenuItemLink
+                  to="/notifications"
+                  onClick={() => {
+                    close()
+                    closeIfDrawer()
+                  }}
+                >
+                  <ToolsMenuItemIcon>
+                    <HiBell {...icNav} />
+                  </ToolsMenuItemIcon>
+                  Centro de avisos
+                </ToolsMenuItemLink>
+              ) : null}
+              {canAbsence ? (
+                <ToolsMenuItemLink
+                  to="/people/absences"
+                  onClick={() => {
+                    close()
+                    closeIfDrawer()
+                  }}
+                >
+                  <ToolsMenuItemIcon>
+                    <HiCalendarDateRange {...icNav} />
+                  </ToolsMenuItemIcon>
+                  Férias e ausências
+                </ToolsMenuItemLink>
+              ) : null}
+              {canApprovals ? (
+                <ToolsMenuItemLink
+                  to="/people/approvals"
+                  onClick={() => {
+                    close()
+                    closeIfDrawer()
+                  }}
+                >
+                  <ToolsMenuItemIcon>
+                    <HiClipboardDocumentCheck {...icNav} />
+                  </ToolsMenuItemIcon>
+                  Aprovações
+                </ToolsMenuItemLink>
+              ) : null}
+              {canTeams ? (
+                <ToolsMenuItemLink
+                  to="/people/teams"
+                  onClick={() => {
+                    close()
+                    closeIfDrawer()
+                  }}
+                >
+                  <ToolsMenuItemIcon>
+                    <HiUserGroup {...icNav} />
+                  </ToolsMenuItemIcon>
+                  Equipes
+                </ToolsMenuItemLink>
+              ) : null}
+              {canReports ? (
+                <ToolsMenuItemLink
+                  to="/reports"
+                  onClick={() => {
+                    close()
+                    closeIfDrawer()
+                  }}
+                >
+                  <ToolsMenuItemIcon>
+                    <HiChartBar {...icNav} />
+                  </ToolsMenuItemIcon>
+                  Relatórios
+                </ToolsMenuItemLink>
+              ) : null}
+            </>
+          ) : null}
           {canJsonViewer || canFlowDesign ? (
             <>
               <ToolsMenuPanelTitle>Ferramentas globais</ToolsMenuPanelTitle>
