@@ -10,7 +10,11 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo dev"
+    "dev": "turbo dev",
+    "build:web": "yarn workspace @flow/web build",
+    "predeploy:web": "yarn workspace @flow/web predeploy",
+    "deploy:web": "yarn workspace @flow/web deploy",
+    "deploy:web:github-pages": "yarn predeploy:web && yarn deploy:web"
   },
   "devDependencies": {
     "turbo": "2.9.9"
