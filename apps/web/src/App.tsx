@@ -23,6 +23,7 @@ import { Allocations } from './pages/Allocations'
 import { OrganogramPage } from './pages/OrganogramPage'
 import { Reports } from './pages/Reports'
 import { TaskBoard } from './pages/TaskBoard'
+import { DailyStatusPage } from './pages/DailyStatus/DailyStatusPage'
 import { EditUser } from './pages/EditUser'
 import { NewUser } from './pages/NewUser'
 import { UserProfile } from './pages/UserProfile'
@@ -205,6 +206,14 @@ export default function App() {
                 element={
                   <RequireAbility I="read" a="TaskBoard">
                     <TaskBoard />
+                  </RequireAbility>
+                }
+              />
+              <Route
+                path="/daily-status"
+                element={
+                  <RequireAbility I="read" a="DailyStatus">
+                    <DailyStatusPage />
                   </RequireAbility>
                 }
               />

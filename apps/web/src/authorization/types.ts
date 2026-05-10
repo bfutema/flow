@@ -19,6 +19,8 @@ export type AppSubject =
   | 'Security'
   | 'JsonViewer'
   | 'FlowDesign'
+  /** Daily / stand-up declarado pelo colaborador (white-label, sem coleta automática). */
+  | 'DailyStatus'
 
 export type AppAbilities = [AppAction, AppSubject]
 

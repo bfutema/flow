@@ -21,6 +21,10 @@ const EDITOR_DEFAULT: AppRawRule[] = [
   { action: 'read', subject: 'Organogram' },
   { action: 'read', subject: 'JsonViewer' },
   { action: 'read', subject: 'FlowDesign' },
+  { action: 'read', subject: 'DailyStatus' },
+  { action: 'create', subject: 'DailyStatus' },
+  { action: 'update', subject: 'DailyStatus' },
+  { action: 'delete', subject: 'DailyStatus' },
 ]
 
 const VIEWER_DEFAULT: AppRawRule[] = [
@@ -33,6 +37,7 @@ const VIEWER_DEFAULT: AppRawRule[] = [
   { action: 'read', subject: 'Organogram' },
   { action: 'read', subject: 'JsonViewer' },
   { action: 'read', subject: 'FlowDesign' },
+  { action: 'read', subject: 'DailyStatus' },
 ]
 
 /** Visitante: e-mail não encontrado no diretório após login. */

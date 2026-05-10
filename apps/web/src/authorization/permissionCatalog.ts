@@ -156,6 +156,38 @@ export const PERMISSION_CATALOG: PermissionCatalogItem[] = [
     group: 'Segurança',
     description: 'Tela de controle de acesso (este módulo).',
   },
+  {
+    id: 'read:DailyStatus',
+    action: 'read',
+    subject: 'DailyStatus',
+    label: 'Ver daily / status do time',
+    group: 'Colaboração',
+    description: 'Feed de dailies declaradas manualmente pelos colaboradores.',
+  },
+  {
+    id: 'create:DailyStatus',
+    action: 'create',
+    subject: 'DailyStatus',
+    label: 'Registrar daily',
+    group: 'Colaboração',
+    description: 'Incluir ou duplicar registro do próprio dia.',
+  },
+  {
+    id: 'update:DailyStatus',
+    action: 'update',
+    subject: 'DailyStatus',
+    label: 'Editar daily própria',
+    group: 'Colaboração',
+    description: 'Alterar texto, horas ou projeto do próprio registro.',
+  },
+  {
+    id: 'delete:DailyStatus',
+    action: 'delete',
+    subject: 'DailyStatus',
+    label: 'Excluir daily própria',
+    group: 'Colaboração',
+    description: 'Remover um registro criado pelo próprio usuário.',
+  },
 ]
 
 export function catalogIds(): string[] {

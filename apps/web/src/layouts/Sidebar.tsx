@@ -1,6 +1,7 @@
 import {
   HiCalendarDays,
   HiChartBar,
+  HiClipboardDocumentList,
   HiFolder,
   HiShieldCheck,
   HiSquares2X2,
@@ -30,6 +31,7 @@ const iconProjetos = <HiFolder {...navIc} />
 const iconUsuarios = <HiUsers {...navIc} />
 const iconAlocacoes = <HiCalendarDays {...navIc} />
 const iconKanban = <HiViewColumns {...navIc} />
+const iconDaily = <HiClipboardDocumentList {...navIc} />
 const iconAccess = <HiShieldCheck {...navIc} />
 /* Organograma pausado — descomente HiShare em react-icons/hi2 e o <SidebarLink> abaixo.
 const iconOrganogram = <HiShare {...navIc} />
@@ -137,6 +139,19 @@ export function Sidebar({
             <NavIcon>{iconKanban}</NavIcon>
             <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
               Tarefas
+            </NavLabel>
+          </SidebarLink>
+        </Can>
+        <Can I="read" a="DailyStatus">
+          <SidebarLink
+            $collapsed={collapsed}
+            $mobileDrawer={mobileDrawer}
+            to="/daily-status"
+            onClick={closeIfDrawer}
+          >
+            <NavIcon>{iconDaily}</NavIcon>
+            <NavLabel $collapsed={collapsed} $mobileDrawer={mobileDrawer}>
+              Status diário
             </NavLabel>
           </SidebarLink>
         </Can>

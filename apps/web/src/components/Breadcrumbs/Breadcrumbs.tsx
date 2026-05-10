@@ -25,6 +25,7 @@ const ROUTE_TREE: Record<string, CrumbItem[]> = {
   '/users': [{ label: 'Usuários' }],
   '/allocations': [{ label: 'Timeline' }],
   '/tasks': [{ label: 'Tarefas' }],
+  '/daily-status': [{ label: 'Status diário' }],
   '/organogram': [{ label: 'Organograma' }],
   '/access-control': [{ label: 'Controle de acesso' }],
   '/tools/json-viewer': [{ label: 'Ferramentas' }, { label: 'JSON Viewer' }],
