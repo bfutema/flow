@@ -10,14 +10,17 @@ import {
   type TeamRecord,
 } from '../../persistence/teamStorage'
 import {
+  CheckboxLabel,
+  CheckboxList,
   DangerBtn,
   Field,
   GhostBtn,
   Input,
   Lead,
-  Modal,
   ModalActions,
+  ModalFieldStack,
   ModalTitle,
+  ModalWide,
   Overlay,
   PageRoot,
   PageTitle,
@@ -165,51 +168,48 @@ export function TeamsPage() {
 
       {modalOpen ? (
         <Overlay role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setModalOpen(false)}>
-          <Modal
-            role="dialog"
-            aria-modal
-            onMouseDown={(e) => e.stopPropagation()}
-            style={{ maxWidth: 'min(100%, 28rem)' }}
-          >
+          <ModalWide role="dialog" aria-modal onMouseDown={(e) => e.stopPropagation()}>
             <ModalTitle>{editing ? 'Editar equipe' : 'Nova equipe'}</ModalTitle>
-            <Field>
-              Nome
-              <Input value={name} onChange={(e) => setName(e.target.value)} />
-            </Field>
-            <Field style={{ marginTop: '0.65rem' }}>
-              Descrição
-              <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-            </Field>
-            <Field style={{ marginTop: '0.65rem' }}>
-              Membros
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginTop: '0.35rem' }}>
-                {users.map((u) => (
-                  <label key={u.id} style={{ fontSize: '0.78rem', cursor: 'pointer' }}>
-                    <input
-                      type="checkbox"
-                      checked={memberIds.includes(u.id)}
-                      onChange={() => toggleMember(u.id)}
-                    />{' '}
-                    {u.name}
-                  </label>
-                ))}
-              </div>
-            </Field>
-            <Field style={{ marginTop: '0.65rem' }}>
-              Projetos vinculados
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginTop: '0.35rem' }}>
-                {projects.map((p) => (
-                  <label key={p.id} style={{ fontSize: '0.78rem', cursor: 'pointer' }}>
-                    <input
-                      type="checkbox"
-                      checked={projectIds.includes(p.id)}
-                      onChange={() => toggleProject(p.id)}
-                    />{' '}
-                    {p.name}
-                  </label>
-                ))}
-              </div>
-            </Field>
+            <ModalFieldStack>
+              <Field>
+                Nome
+                <Input value={name} onChange={(e) => setName(e.target.value)} />
+              </Field>
+              <Field>
+                Descrição
+                <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+              </Field>
+              <Field>
+                Membros
+                <CheckboxList>
+                  {users.map((u) => (
+                    <CheckboxLabel key={u.id}>
+                      <input
+                        type="checkbox"
+                        checked={memberIds.includes(u.id)}
+                        onChange={() => toggleMember(u.id)}
+                      />
+                      {u.name}
+                    </CheckboxLabel>
+                  ))}
+                </CheckboxList>
+              </Field>
+              <Field>
+                Projetos vinculados
+                <CheckboxList>
+                  {projects.map((p) => (
+                    <CheckboxLabel key={p.id}>
+                      <input
+                        type="checkbox"
+                        checked={projectIds.includes(p.id)}
+                        onChange={() => toggleProject(p.id)}
+                      />
+                      {p.name}
+                    </CheckboxLabel>
+                  ))}
+                </CheckboxList>
+              </Field>
+            </ModalFieldStack>
             <ModalActions>
               <GhostBtn type="button" onClick={() => setModalOpen(false)}>
                 Cancelar
@@ -218,7 +218,7 @@ export function TeamsPage() {
                 Salvar
               </PrimaryBtn>
             </ModalActions>
-          </Modal>
+          </ModalWide>
         </Overlay>
       ) : null}
     </PageRoot>

@@ -13,11 +13,16 @@ export const NotifItem = styled.li<{ $unread?: boolean }>`
   display: flex;
   align-items: flex-start;
   gap: 0.55rem;
-  padding: 0.65rem 0.75rem;
+  padding: 0.5rem 0.65rem;
   border-radius: 0.55rem;
   border: 1px solid ${({ theme }) => theme.border};
   background: ${({ theme, $unread }) =>
     $unread ? theme.surfaceHover : theme.surface};
+`
+
+export const NotifContent = styled.div`
+  flex: 1;
+  min-width: 0;
 `
 
 export const UnreadDot = styled.span`
@@ -36,7 +41,7 @@ export const NotifTitle = styled.div<{ $unread?: boolean }>`
 `
 
 export const NotifBody = styled.p`
-  margin: 0.25rem 0 0;
+  margin: 0.28rem 0 0;
   font-size: 0.78rem;
   line-height: 1.45;
   color: ${({ theme }) => theme.textMuted};

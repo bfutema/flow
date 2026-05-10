@@ -27,7 +27,7 @@ export const Toolbar = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 0.75rem;
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 1rem;
 `
 
@@ -242,11 +242,37 @@ export const Td = styled.td`
   vertical-align: top;
 `
 
+/** Célula de tabela vazia / placeholder (mesmo padding que Td). */
+export const TdEmpty = styled(Td)`
+  text-align: center;
+  font-style: italic;
+  color: ${({ theme }) => theme.textMuted};
+`
+
+/** Bloco empilhado dentro de célula (subtítulo + meta). */
+export const TableCellStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+`
+
+export const TableCellMuted = styled.div`
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: ${({ theme }) => theme.textMuted};
+`
+
+export const TableCellFootnote = styled.div`
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: ${({ theme }) => theme.textMuted};
+`
+
 export const TabRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 `
 
 export const TabBtn = styled.button.attrs({ type: 'button' })<{ $active?: boolean }>`
@@ -300,6 +326,36 @@ export const Modal = styled.div`
   margin-top: 4vh;
 `
 
+/** Modal mais largo (formulários com listas); mesmo padding que Modal. */
+export const ModalWide = styled(Modal)`
+  max-width: min(100%, 28rem);
+`
+
+/** Espaço vertical entre campos do modal (ritmo CardTitle → bloco). */
+export const ModalFieldStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+`
+
+/** Lista de checkboxes sob Field (gap alinhado ao Field). */
+export const CheckboxList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  margin-top: 0.28rem;
+`
+
+export const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+  cursor: pointer;
+`
+
 export const ModalTitle = styled.h3`
   margin: 0 0 0.75rem;
   font-size: 1rem;
@@ -325,17 +381,36 @@ export const InlineLink = styled(Link)`
   }
 `
 
+/** Nota rodapé dentro de Card (ritmo Lead, sem margem inferior extra). */
+export const CardFootnote = styled.p`
+  margin: 0.65rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.textMuted};
+  max-width: 48rem;
+`
+
+/** Texto de estado vazio em lista/card (substitui Lead com margin custom). */
+export const EmptyHint = styled.p`
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.textMuted};
+`
+
 export const TeamGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   gap: 0.75rem;
+  margin-bottom: 1rem;
 `
 
 export const TeamCard = styled.article`
   border: 1px solid ${({ theme }) => theme.border};
-  border-radius: 0.65rem;
-  padding: 0.85rem;
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem;
   background: ${({ theme }) => theme.surface};
+  box-shadow: ${({ theme }) => theme.shadow};
 `
 
 export const TeamName = styled.div`
@@ -354,6 +429,6 @@ export const TeamMeta = styled.div`
 export const TeamActions = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.5rem 0.75rem;
   margin-top: 0.65rem;
 `

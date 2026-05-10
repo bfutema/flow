@@ -11,6 +11,7 @@ import {
   type ApprovalKind,
 } from '../../persistence/approvalQueueStorage'
 import {
+  Card,
   CardTitle,
   Chip,
   GhostBtn,
@@ -21,8 +22,12 @@ import {
   TabBtn,
   TabRow,
   Table,
+  TableCellFootnote,
+  TableCellMuted,
+  TableCellStack,
   TableWrap,
   Td,
+  TdEmpty,
   Th,
 } from './peopleOpsShared.styles'
 
@@ -103,8 +108,8 @@ export function ApprovalsPage() {
         </TabBtn>
       </TabRow>
 
-      <section>
-        <CardTitle style={{ marginBottom: '0.65rem' }}>Pendências e histórico recente</CardTitle>
+      <Card>
+        <CardTitle>Pendências e histórico recente</CardTitle>
         <TableWrap>
           <Table>
             <thead>
@@ -119,9 +124,7 @@ export function ApprovalsPage() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <Td colSpan={canUpdate ? 5 : 4} style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                    Nada neste filtro.
-                  </Td>
+                  <TdEmpty colSpan={canUpdate ? 5 : 4}>Nada neste filtro.</TdEmpty>
                 </tr>
               ) : (
                 filtered.map((r) => {
@@ -133,13 +136,11 @@ export function ApprovalsPage() {
                     <tr key={r.id}>
                       <Td>{approvalKindLabel(r.kind)}</Td>
                       <Td>
-                        <strong>{r.title}</strong>
-                        <div style={{ marginTop: '0.25rem', opacity: 0.85 }}>{r.summary}</div>
-                        {dec ? (
-                          <div style={{ fontSize: '0.68rem', marginTop: '0.35rem', opacity: 0.75 }}>
-                            Por {dec.name}
-                          </div>
-                        ) : null}
+                        <TableCellStack>
+                          <strong>{r.title}</strong>
+                          <TableCellMuted>{r.summary}</TableCellMuted>
+                          {dec ? <TableCellFootnote>Por {dec.name}</TableCellFootnote> : null}
+                        </TableCellStack>
                       </Td>
                       <Td>{req?.name ?? r.requesterUserId}</Td>
                       <Td>
@@ -174,7 +175,7 @@ export function ApprovalsPage() {
             </tbody>
           </Table>
         </TableWrap>
-      </section>
+      </Card>
     </PageRoot>
   )
 }

@@ -14,6 +14,7 @@ import {
 import {
   Card,
   CardTitle,
+  EmptyHint,
   GhostBtn,
   Lead,
   PageRoot,
@@ -23,6 +24,7 @@ import {
 } from './peopleOpsShared.styles'
 import {
   NotifBody,
+  NotifContent,
   NotifItem,
   NotifList,
   NotifMeta,
@@ -90,12 +92,12 @@ export function NotificationsPage() {
         <CardTitle>Sua caixa</CardTitle>
         <NotifList>
           {items.length === 0 ? (
-            <Lead style={{ margin: 0 }}>Nenhum aviso.</Lead>
+            <EmptyHint>Nenhum aviso.</EmptyHint>
           ) : (
             items.map((n) => (
               <NotifItem key={n.id} $unread={!n.read}>
                 {!n.read ? <UnreadDot aria-hidden /> : null}
-                <div style={{ flex: 1, minWidth: 0 }}>
+                <NotifContent>
                   <NotifTitle $unread={!n.read}>{n.title}</NotifTitle>
                   <NotifBody>{n.body}</NotifBody>
                   <NotifMeta>
@@ -110,7 +112,7 @@ export function NotificationsPage() {
                       </>
                     ) : null}
                   </NotifMeta>
-                </div>
+                </NotifContent>
                 {canUpdate && !n.read ? (
                   <GhostBtn type="button" onClick={() => markRead(viewer.id, n.id)}>
                     Lida

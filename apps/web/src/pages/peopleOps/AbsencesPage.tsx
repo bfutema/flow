@@ -17,6 +17,7 @@ import {
 } from '../../persistence/absenceStorage'
 import {
   Card,
+  CardFootnote,
   CardTitle,
   Chip,
   Field,
@@ -39,6 +40,7 @@ import {
   Table,
   TableWrap,
   Td,
+  TdEmpty,
   Textarea,
   Th,
   Toolbar,
@@ -180,7 +182,7 @@ export function AbsencesPage() {
           <Input type="month" value={monthFilter} onChange={(e) => setMonthFilter(e.target.value)} />
         </Field>
         {canCreate ? (
-          <PrimaryBtn type="button" style={{ alignSelf: 'flex-end' }} onClick={() => setModalOpen(true)}>
+          <PrimaryBtn type="button" onClick={() => setModalOpen(true)}>
             Nova solicitação
           </PrimaryBtn>
         ) : null}
@@ -205,9 +207,7 @@ export function AbsencesPage() {
             <tbody>
               {monthRows.length === 0 ? (
                 <tr>
-                  <Td colSpan={canUpdate ? 8 : 7} style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                    Nenhuma solicitação neste mês.
-                  </Td>
+                  <TdEmpty colSpan={canUpdate ? 8 : 7}>Nenhuma solicitação neste mês.</TdEmpty>
                 </tr>
               ) : (
                 monthRows.map((r) => {
@@ -277,9 +277,9 @@ export function AbsencesPage() {
             </tbody>
           </Table>
         </TableWrap>
-        <Lead style={{ marginTop: '0.65rem', marginBottom: 0 }}>
+        <CardFootnote>
           Veja também a <InlineLink to="/people/approvals">fila de aprovações</InlineLink> para outras pendências.
-        </Lead>
+        </CardFootnote>
       </Card>
 
       {modalOpen ? (
